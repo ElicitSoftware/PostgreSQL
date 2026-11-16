@@ -2,6 +2,10 @@
 CREATE DATABASE survey_test;
 \c survey_test
 
+-- As on the survey database (V0.0.1): the schema owner creates reporting schemas here too.
+GRANT CONNECT, CREATE ON DATABASE survey_test TO dbowner;
+GRANT CONNECT ON DATABASE survey_test TO dbuser;
+
 CREATE SCHEMA survey AUTHORIZATION elicit_owner;
 GRANT USAGE on SCHEMA survey to survey_user;
 

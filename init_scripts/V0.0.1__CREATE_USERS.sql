@@ -1,6 +1,9 @@
+-- No role created here is a superuser. dbowner holds what the schema owner needs beyond
+-- owning its schemas: CREATE on the database, for the reporting schema each installed survey
+-- gets (report_<slug>). elicit_owner is a member of it, below.
 CREATE ROLE dbowner WITH
   NOLOGIN
-  SUPERUSER
+  NOSUPERUSER
   INHERIT
   NOCREATEDB
   NOCREATEROLE
@@ -26,14 +29,19 @@ GRANT USAGE ON SCHEMA public TO dbuser;
 GRANT CONNECT ON DATABASE Survey TO dbuser;
 GRANT USAGE ON SCHEMA public TO dbuser;
 
+-- The schema owner: runs every module's migrations and Survey's reporting schema build. It
+-- owns the survey and surveyreport schemas (V0.0.2) and what it creates in them, and needs
+-- nothing a superuser has.
 CREATE ROLE elicit_owner WITH
     LOGIN
-    SUPERUSER
+    NOSUPERUSER
     INHERIT
     NOCREATEDB
     NOCREATEROLE
     NOREPLICATION
     ENCRYPTED PASSWORD 'SURVEYPW';
+
+GRANT dbowner TO elicit_owner;
 
 CREATE ROLE survey_user WITH
   LOGIN
