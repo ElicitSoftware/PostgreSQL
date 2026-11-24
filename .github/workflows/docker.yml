@@ -42,6 +42,10 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
           flavor: |
             latest=false
+          # Stated here, not left to GitHub's detection of the license file.
+          labels: |
+            org.opencontainers.image.licenses=PolyForm-Noncommercial-1.0.0
+            org.opencontainers.image.vendor=Elicit Software LLC
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
